@@ -72,7 +72,7 @@ async def main():
             clear_line()
 
             if user_input.startswith('!'):
-                print(f"Commands for CLI begin with '/' not '!'")
+                print("Commands for CLI begin with '/' not '!'")
                 continue
 
             if user_input == "":
@@ -122,7 +122,7 @@ async def main():
                         except Exception as e:
                             print(f"Loading {filename} failed with: {e}")
                     else:
-                        print(f"/load error: no checkpoint specified")
+                        print("/load error: no checkpoint specified")
                     continue
 
                 elif user_input.lower() == "/dump":
@@ -160,7 +160,6 @@ async def main():
                     memgpt_agent.messages = memgpt_agent.messages[:-amount]
                     continue
 
-                # No skip options
                 elif user_input.lower() == "/wipe":
                     memgpt_agent = agent.AgentAsync(interface)
                     user_message = None

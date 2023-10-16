@@ -35,10 +35,7 @@ def get_local_time_military():
     sf_time_zone = pytz.timezone('America/Los_Angeles')
     local_time = current_time_utc.astimezone(sf_time_zone)
 
-    # You may format it as you desire
-    formatted_time = local_time.strftime("%Y-%m-%d %H:%M:%S %Z%z")
-
-    return formatted_time
+    return local_time.strftime("%Y-%m-%d %H:%M:%S %Z%z")
 
 def get_local_time():
     # Get the current time in UTC
@@ -48,22 +45,17 @@ def get_local_time():
     sf_time_zone = pytz.timezone('America/Los_Angeles')
     local_time = current_time_utc.astimezone(sf_time_zone)
 
-    # You may format it as you desire, including AM/PM
-    formatted_time = local_time.strftime("%Y-%m-%d %I:%M:%S %p %Z%z")
-
-    return formatted_time
+    return local_time.strftime("%Y-%m-%d %I:%M:%S %p %Z%z")
 
 def parse_json(string):
     result = None
     try:
-        result = json.loads(string)
-        return result
+        return json.loads(string)
     except Exception as e:
         print(f"Error parsing json with json package: {e}")
 
     try:
-        result = demjson.decode(string)
-        return result
+        return demjson.decode(string)
     except demjson.JSONDecodeError as e:
         print(f"Error parsing json with demjson package: {e}")
         raise e
@@ -78,9 +70,11 @@ def prepare_archival_index(folder):
         all_data = [json.loads(line) for line in f]
     for doc in all_data:
         total = len(doc)
-        for i, passage in enumerate(doc):
-            archival_database.append({
+        archival_database.extend(
+            {
                 'content': f"[Title: {passage['title']}, {i}/{total}] {passage['text']}",
                 'timestamp': get_local_time(),
-            })  
+            }
+            for i, passage in enumerate(doc)
+        )
     return index, archival_database
